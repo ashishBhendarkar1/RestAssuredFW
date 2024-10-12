@@ -1,4 +1,5 @@
-# RestAssuredFW
+# RestAssured_API Framework
+
 folder structure -
 .
 ├───.settings
