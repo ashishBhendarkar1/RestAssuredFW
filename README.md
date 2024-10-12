@@ -1,5 +1,5 @@
 # RestAssuredFW
-
+folder structure -
 .
 ├───.settings
 ├───src
