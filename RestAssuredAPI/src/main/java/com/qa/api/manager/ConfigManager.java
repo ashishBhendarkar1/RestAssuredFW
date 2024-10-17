@@ -44,11 +44,20 @@ public class ConfigManager {
 		return properties.getProperty(key);
 	}
 	
+	public static void set(String key, String value) {
+		 properties.setProperty(key,value);
+	}
+	
 	
 	@Test
 	public void getvalue() {
 		System.out.println(get("baseUrl"));
 	}
 	
+	@Test
+	public void setvalue() {
+		set("baseUrl","https://reqres.in");
+		System.out.println("---"+get("baseUrl"));
+	}
 	
 }

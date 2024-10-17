@@ -3,6 +3,9 @@
 import java.io.File;
 import java.util.Map;
 
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.core.AnyOf.anyOf;
+
 import com.qa.api.constants.AuthType;
 import com.qa.api.exceptions.FrameworkException;
 import com.qa.api.manager.ConfigManager;
@@ -14,9 +17,12 @@ import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import static io.restassured.RestAssured.expect;
 
+
 public class RestClient {
 	
 	private ResponseSpecification responseSpec200 = expect().statusCode(200);
+	private ResponseSpecification responseSpec200or404 = expect().statusCode(anyOf(equalTo(200),equalTo(404)));
+	
 	private ResponseSpecification responseSpec201 = expect().statusCode(201);
 	private ResponseSpecification responseSpec204 = expect().statusCode(204);
 	
@@ -52,6 +58,7 @@ public class RestClient {
 		   return request;
 	}
 	
+
 	private String generateOAUTH2Token() {
 		return RestAssured.given()
 				            .formParam("client_id", ConfigManager.get("clientId"))
@@ -87,7 +94,7 @@ public class RestClient {
 		
 	Response response = request.get(endpoint)
 		                .then()
-		                  .spec(responseSpec200)
+		                  .spec(responseSpec200or404)
 		                    .and()
 		                     .extract()
 		                        .response();

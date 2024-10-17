@@ -13,10 +13,10 @@ import io.restassured.response.Response;
 
 
 
-public class UpdateUserTest extends BaseTest{
+public class PatchUserTest extends BaseTest{
 	
 	@Test
-	public void updateUserTest() {
+	public void patchUserTest() {
 		//1. POST: create a user 
 		User user = User.builder()
 		                  .name("apiname")
@@ -37,15 +37,13 @@ public class UpdateUserTest extends BaseTest{
 		Assert.assertEquals(responseget.jsonPath().getString("id"), userid);
 		
 		//update user details using setter method
-		user.setGender("female");
-		user.setStatus("inactive");
+		user.setEmail(StringUtility.getRandomEmailId());
 		
-		//3. PUT: user same userid
-		Response responseput = restclient.put("/public/v2/users/"+userid, user, null, null, AuthType.BEARER_TOKEN, ContentType.JSON);
+		//3. PATCH:update user deatil using same userid
+		Response responseput = restclient.patch("/public/v2/users/"+userid, user, null, null, AuthType.BEARER_TOKEN, ContentType.JSON);
 		Assert.assertEquals(responseput.getStatusCode(),200);
 		Assert.assertEquals(responseput.jsonPath().getString("id"), userid);
-		Assert.assertEquals(responseput.jsonPath().getString("gender"), user.getGender());
-		Assert.assertEquals(responseput.jsonPath().getString("status"), user.getStatus());
+		Assert.assertEquals(responseput.jsonPath().getString("email"), user.getEmail());
 		
 	}
 

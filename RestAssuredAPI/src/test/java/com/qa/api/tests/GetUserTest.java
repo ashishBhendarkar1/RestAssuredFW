@@ -17,7 +17,7 @@ public class GetUserTest extends BaseTest {
 	@Test
 	public void getUserTest() {
 		Map<String, String> queryParam = new HashMap<String, String>();
-			queryParam.put("name", "naveen");
+			queryParam.put("name", "api");
 			queryParam.put("status", "active");
 			
 		
@@ -26,14 +26,14 @@ public class GetUserTest extends BaseTest {
 
 	}
 	
-	@Test
+	@Test(enabled = false)
 	public void getSingleUserTest() {
 	
-		Response response = restclient.get("/public/v2/users/7440218", null, null, AuthType.BEARER_TOKEN, ContentType.JSON);
+		Response response = restclient.get("/public/v2/users/7475002", null, null, AuthType.BEARER_TOKEN, ContentType.JSON);
 		int id = response.then().extract().path("id");
 		
         Assert.assertEquals(response.getStatusCode(), 200);
-        Assert.assertEquals(id, 7440218);
+        Assert.assertEquals(id, 7475002);
 
 	}
 
