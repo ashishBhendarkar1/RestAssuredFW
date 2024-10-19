@@ -45,11 +45,28 @@
 		</classes>
 	</test>
 	
-	<test name="Req Res Test">
+	<test name="Req Res API Test">
 		<parameter name="baseUrl" value="https://reqres.in" />
 
 		<classes>
 			<class name="com.qa.reqres.test.ReqResTest" />
+		</classes>
+	</test>
+	
+	
+	<test name="Contacts API Test">
+		<parameter name="baseUrl" value="https://thinking-tester-contact-list.herokuapp.com" />
+
+		<classes>
+			<class name="com.qa.contacts.test.GetContactsTest" />
+		</classes>
+	</test>
+	
+	<test name="Products API Test">
+		<parameter name="baseUrl" value="https://fakestoreapi.com" />
+
+		<classes>
+			<class name="com.qa.products.test.ProductsAPITest" />
 		</classes>
 	</test>
 	

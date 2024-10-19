@@ -19,7 +19,7 @@ public class CreateUserTest extends BaseTest{
 	@Test
 	public void createUserTest() {
 		
-		User user = new User("ashish", StringUtility.getRandomEmailId(), "male", "active");
+		User user = new User(null, "ashish", StringUtility.getRandomEmailId(), "male", "active");
 		
 		Response response = restclient.post("/public/v2/users", user, null, null, AuthType.BEARER_TOKEN, ContentType.JSON);
 		

@@ -21,6 +21,7 @@ import static io.restassured.RestAssured.expect;
 public class RestClient {
 	
 	private ResponseSpecification responseSpec200 = expect().statusCode(200);
+	private ResponseSpecification responseSpec200or201 = expect().statusCode(anyOf(equalTo(200),equalTo(201)));
 	private ResponseSpecification responseSpec200or404 = expect().statusCode(anyOf(equalTo(200),equalTo(404)));
 	
 	private ResponseSpecification responseSpec201 = expect().statusCode(201);
@@ -38,6 +39,9 @@ public class RestClient {
 		switch (authtype) {
 		case BEARER_TOKEN:
 			request.header("Authorization", "Bearer " +ConfigManager.get("bearerToken"));
+			break;
+		case CONTACTS_BEARER_TOKEN:
+			request.header("Authorization", "Bearer " +ConfigManager.get("contacts_bearer_token"));
 			break;
 		case OAUTH2:
 			request.header("Authorization", "Bearer "+generateOAUTH2Token());
@@ -121,7 +125,7 @@ public class RestClient {
 		Response response = request.body(body)
 		        .post(endpoint)
 		         .then()
-		          .spec(responseSpec201)
+		          .spec(responseSpec200or201)
 		           .and()
 		            .extract()
 		             .response();
