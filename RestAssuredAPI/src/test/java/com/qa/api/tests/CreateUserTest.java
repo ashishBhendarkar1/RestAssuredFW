@@ -21,7 +21,7 @@ public class CreateUserTest extends BaseTest{
 		
 		User user = new User(null, "ashish", StringUtility.getRandomEmailId(), "male", "active");
 		
-		Response response = restclient.post("/public/v2/users", user, null, null, AuthType.BEARER_TOKEN, ContentType.JSON);
+		Response response = restclient.post(BASE_URL_GOREST,"/public/v2/users", user, null, null, AuthType.BEARER_TOKEN, ContentType.JSON);
 		
 		Assert.assertEquals(response.getStatusCode(), 201);
 	}
@@ -37,7 +37,7 @@ public class CreateUserTest extends BaseTest{
 	               .status("active")
 	               .build();
 		
-		Response response = restclient.post("/public/v2/users", user, null, null, AuthType.BEARER_TOKEN, ContentType.JSON);		
+		Response response = restclient.post(BASE_URL_GOREST,"/public/v2/users", user, null, null, AuthType.BEARER_TOKEN, ContentType.JSON);		
 		Assert.assertEquals(response.getStatusCode(), 201);
 		
 		//fetch userid
@@ -45,7 +45,7 @@ public class CreateUserTest extends BaseTest{
 		System.out.println("User ID is ====> "+userid);
 		
    //2.GET
-		Response responseget = restclient.get("/public/v2/users/" + userid, null, null, AuthType.BEARER_TOKEN, ContentType.JSON);
+		Response responseget = restclient.get(BASE_URL_GOREST,"/public/v2/users/" + userid, null, null, AuthType.BEARER_TOKEN, ContentType.JSON);
 		Assert.assertEquals(responseget.jsonPath().getString("id"), userid);
 		Assert.assertEquals(responseget.jsonPath().getString("name"), user.getName());
 		Assert.assertEquals(responseget.jsonPath().getString("email"), user.getEmail());
@@ -57,7 +57,7 @@ public class CreateUserTest extends BaseTest{
 		
 	   File jsonfile = new File(".//src/test/resources/jsons/user.json");
 		
-		Response response = restclient.post("/public/v2/users", jsonfile, null, null, AuthType.BEARER_TOKEN, ContentType.JSON);
+		Response response = restclient.post(BASE_URL_GOREST,"/public/v2/users", jsonfile, null, null, AuthType.BEARER_TOKEN, ContentType.JSON);
 		
 		Assert.assertEquals(response.getStatusCode(), 201);
 	}

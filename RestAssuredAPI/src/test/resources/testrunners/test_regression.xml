@@ -5,15 +5,13 @@
 
 
 	<test name="GET User Test">
-		<parameter name="baseUrl" value="https://gorest.co.in" />
-
+	
 		<classes>
 			<class name="com.qa.api.tests.GetUserTest" />
 		</classes>
 	</test>
 
 	<test name="Update User Test">
-		<parameter name="baseUrl" value="https://gorest.co.in" />
 
 		<classes>
 			<class name="com.qa.api.tests.UpdateUserTest" />
@@ -21,7 +19,6 @@
 	</test>
 
 	<test name="Partial Update User Test">
-		<parameter name="baseUrl" value="https://gorest.co.in" />
 
 		<classes>
 			<class name="com.qa.api.tests.PatchUserTest" />
@@ -29,7 +26,6 @@
 	</test>
 
 	<test name="Delete User Test">
-		<parameter name="baseUrl" value="https://gorest.co.in" />
 
 		<classes>
 			<class name="com.qa.api.tests.DeleteUserTest" />
@@ -38,7 +34,7 @@
 
 
 	<test name="Create User Test">
-		<parameter name="baseUrl" value="https://gorest.co.in" />
+		
 
 		<classes>
 			<class name="com.qa.api.tests.CreateUserTest" />
@@ -46,7 +42,6 @@
 	</test>
 	
 	<test name="Req Res API Test">
-		<parameter name="baseUrl" value="https://reqres.in" />
 
 		<classes>
 			<class name="com.qa.reqres.test.ReqResTest" />
@@ -55,7 +50,6 @@
 	
 	
 	<test name="Contacts API Test">
-		<parameter name="baseUrl" value="https://thinking-tester-contact-list.herokuapp.com" />
 
 		<classes>
 			<class name="com.qa.contacts.test.GetContactsTest" />
@@ -63,12 +57,24 @@
 	</test>
 	
 	<test name="Products API Test">
-		<parameter name="baseUrl" value="https://fakestoreapi.com" />
-
 		<classes>
 			<class name="com.qa.products.test.ProductsAPITest" />
 		</classes>
 	</test>
+	
+	<test name="Basic Autho API Test">
+		<classes>
+			<class name="com.qa.basicauth.tests.BasicAuthTest" />
+		</classes>
+	</test>
+	
+	<test name="Amadeus OAUTH2.0 API Test">
+		<classes>
+			<class name="com.qa.amadeus.tests.AmadeusAPITest" />
+		</classes>
+	</test>
+	
+	
 	
 
 </suite>

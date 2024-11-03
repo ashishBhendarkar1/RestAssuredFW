@@ -1,7 +1,10 @@
  package com.qa.api.client;
 
 import java.io.File;
+import java.util.Base64;
 import java.util.Map;
+
+import org.testng.annotations.Test;
 
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.AnyOf.anyOf;
@@ -27,9 +30,9 @@ public class RestClient {
 	private ResponseSpecification responseSpec201 = expect().statusCode(201);
 	private ResponseSpecification responseSpec204 = expect().statusCode(204);
 	
-	private String baseurl = ConfigManager.get("baseUrl");
+//	private String baseurl = ConfigManager.get("baseUrl");
 	
-	private RequestSpecification setupRequest(AuthType authtype, ContentType contentType) {
+	private RequestSpecification setupRequest(String baseurl,AuthType authtype, ContentType contentType) {
 		RequestSpecification request =RestAssured.given().log().all()
 		                                   .baseUri(baseurl)
 		                                   .contentType(contentType)
@@ -47,7 +50,7 @@ public class RestClient {
 			request.header("Authorization", "Bearer "+generateOAUTH2Token());
 			break;
 		case BASIC_AUTH:
-			request.header("Authorization", "Basic ");
+			request.header("Authorization", "Basic "+generateBasicAuthToken());
 			break;
 		case API_KEY:
 			request.header("x-api-key", ConfigManager.get("API_KEY"));
@@ -62,17 +65,27 @@ public class RestClient {
 		   return request;
 	}
 	
+	/**
+	 * this method will give BASe64 encoded string
+	 * @return
+	 */
+	private String generateBasicAuthToken() {
+		String credential = ConfigManager.get("basicUsername")+ ":" +ConfigManager.get("basicPassword");
+		return Base64.getEncoder().encodeToString(credential.getBytes());
+	}
 
+	
 	private String generateOAUTH2Token() {
-		return RestAssured.given()
+		return RestAssured.given().log().all()
 				            .formParam("client_id", ConfigManager.get("clientId"))
 				            .formParam("client_secret", ConfigManager.get("clientSecret"))
 				            .formParam("grant_type", ConfigManager.get("grantType"))
 				            .post(ConfigManager.get("tokenUrl"))
-				            .then()
+				            .then().log().all()
 				            .extract()
 				            .path("access_token");
 	}
+	
 	
 	//******************CURD method*********************
 	
@@ -85,8 +98,8 @@ public class RestClient {
      * @param contentType
      * @return it returns the get api response
      */
-	public Response get(String endpoint,Map<String, String> queryParam , Map<String, String> pathParam, AuthType authtype, ContentType contentType) {
-		RequestSpecification request = setupRequest(authtype, contentType);
+	public Response get(String baseurl,String endpoint,Map<String, String> queryParam , Map<String, String> pathParam, AuthType authtype, ContentType contentType) {
+		RequestSpecification request = setupRequest(baseurl,authtype, contentType);
 		
 		if(queryParam != null) {
 			request.queryParams(queryParam);
@@ -116,10 +129,10 @@ public class RestClient {
 	 * @param contentType
 	 * @return it returns the post api response
 	 */
-	public <T> Response post(String endpoint, T body ,Map<String, String> queryParam , Map<String, String> pathParam,
+	public <T> Response post(String baseurl,String endpoint, T body ,Map<String, String> queryParam , Map<String, String> pathParam,
 		                      	AuthType authtype, ContentType contentType) {
 	
-		RequestSpecification request = setupRequest(authtype, contentType);
+		RequestSpecification request = setupRequest(baseurl,authtype, contentType);
 		applyParam(request,queryParam,pathParam);
 		
 		Response response = request.body(body)
@@ -144,10 +157,10 @@ public class RestClient {
 	 * @param contentType
 	 * @return it returns the post api response
 	 */
-	public Response post(String endpoint, File file ,Map<String, String> queryParam , Map<String, String> pathParam,
+	public Response post(String baseurl,String endpoint, File file ,Map<String, String> queryParam , Map<String, String> pathParam,
           	AuthType authtype, ContentType contentType) {
 
-           RequestSpecification request = setupRequest(authtype, contentType);
+           RequestSpecification request = setupRequest(baseurl,authtype, contentType);
            applyParam(request,queryParam,pathParam);
 
            Response response = request.body(file)
@@ -182,9 +195,9 @@ public class RestClient {
 	 * @param contentType
 	 * @return it returns the put api response
 	 */
-	public <T> Response put(String endpoint, T body ,Map<String, String> queryParam , Map<String, String> pathParam,
+	public <T> Response put(String baseurl,String endpoint, T body ,Map<String, String> queryParam , Map<String, String> pathParam,
           	           AuthType authtype, ContentType contentType) {
-		RequestSpecification request = setupRequest(authtype, contentType);
+		RequestSpecification request = setupRequest(baseurl,authtype, contentType);
 		applyParam(request,queryParam,pathParam);
 		
 		Response response = request.body(body)
@@ -209,9 +222,9 @@ public class RestClient {
 	 * @param contentType
 	 * @return it returns the patch api response
 	 */
-	public <T> Response patch(String endpoint, T body ,Map<String, String> queryParam , Map<String, String> pathParam,
+	public <T> Response patch(String baseurl,String endpoint, T body ,Map<String, String> queryParam , Map<String, String> pathParam,
 	           AuthType authtype, ContentType contentType) {
-         RequestSpecification request = setupRequest(authtype, contentType);
+         RequestSpecification request = setupRequest(baseurl,authtype, contentType);
          applyParam(request,queryParam,pathParam);
 
          Response response = request.body(body)
@@ -234,9 +247,9 @@ public class RestClient {
 	 * @param contentType
 	 * @return it returns the deleteapi response
 	 */
-	public Response delete(String endpoint, Map<String, String> queryParam , Map<String, String> pathParam,
+	public Response delete(String baseurl,String endpoint, Map<String, String> queryParam , Map<String, String> pathParam,
 	           AuthType authtype, ContentType contentType) {
-      RequestSpecification request = setupRequest(authtype, contentType);
+      RequestSpecification request = setupRequest(baseurl, authtype, contentType);
       applyParam(request,queryParam,pathParam);
 
       Response response = request.delete(endpoint)

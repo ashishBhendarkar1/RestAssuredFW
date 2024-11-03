@@ -21,7 +21,7 @@ public class GetContactsTest extends BaseTest {
 		                    .password("apitest@123")
 		                    .build();
 		
-		Response response = restclient.post("/users/login", cred, null, null, AuthType.NO_AUTH, ContentType.JSON);
+		Response response = restclient.post(BASE_URL_CONTACTS,"/users/login", cred, null, null, AuthType.NO_AUTH, ContentType.JSON);
 		String token = response.jsonPath().getString("token");
 		System.out.println("contacts token id==" +token);	
 		return token;
@@ -32,7 +32,7 @@ public class GetContactsTest extends BaseTest {
 		
 		String token = getToken();
 		ConfigManager.set("contacts_bearer_token", token);
-		Response response = restclient.get("/contacts", null, null, AuthType.CONTACTS_BEARER_TOKEN, ContentType.JSON);
+		Response response = restclient.get(BASE_URL_CONTACTS,"/contacts", null, null, AuthType.CONTACTS_BEARER_TOKEN, ContentType.JSON);
 		Assert.assertEquals(response.getStatusCode(), 200);
 	}
 	                                     

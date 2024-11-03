@@ -21,7 +21,7 @@ public class GetUserTest extends BaseTest {
 			queryParam.put("status", "active");
 			
 		
-		Response response = restclient.get("/public/v2/users", queryParam, null, AuthType.BEARER_TOKEN, ContentType.JSON);
+		Response response = restclient.get(BASE_URL_GOREST,"/public/v2/users", queryParam, null, AuthType.BEARER_TOKEN, ContentType.JSON);
         Assert.assertEquals(response.getStatusCode(), 200);		
 
 	}
@@ -29,7 +29,7 @@ public class GetUserTest extends BaseTest {
 	@Test(enabled = false)
 	public void getSingleUserTest() {
 	
-		Response response = restclient.get("/public/v2/users/7475002", null, null, AuthType.BEARER_TOKEN, ContentType.JSON);
+		Response response = restclient.get(BASE_URL_GOREST,"/public/v2/users/7475002", null, null, AuthType.BEARER_TOKEN, ContentType.JSON);
 		int id = response.then().extract().path("id");
 		
         Assert.assertEquals(response.getStatusCode(), 200);

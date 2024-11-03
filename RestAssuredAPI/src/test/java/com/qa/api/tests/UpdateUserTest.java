@@ -25,14 +25,14 @@ public class UpdateUserTest extends BaseTest{
 		                  .status("active")
 		                  .build();
 		
-		Response response = restclient.post("/public/v2/users", user, null, null, AuthType.BEARER_TOKEN, ContentType.JSON);		
+		Response response = restclient.post(BASE_URL_GOREST,"/public/v2/users", user, null, null, AuthType.BEARER_TOKEN, ContentType.JSON);		
 		Assert.assertEquals(response.getStatusCode(), 201);
 		//fetch userid
 		String userid = response.jsonPath().getString("id");
 		
 		
 		//2. GET: verify created user is same or not
-		Response responseget = restclient.get("/public/v2/users/"+ userid, null, null, AuthType.BEARER_TOKEN, ContentType.JSON);
+		Response responseget = restclient.get(BASE_URL_GOREST,"/public/v2/users/"+ userid, null, null, AuthType.BEARER_TOKEN, ContentType.JSON);
 		Assert.assertEquals(responseget.getStatusCode(),200);
 		Assert.assertEquals(responseget.jsonPath().getString("id"), userid);
 		
@@ -41,7 +41,7 @@ public class UpdateUserTest extends BaseTest{
 		user.setStatus("inactive");
 		
 		//3. PUT: user same userid
-		Response responseput = restclient.put("/public/v2/users/"+userid, user, null, null, AuthType.BEARER_TOKEN, ContentType.JSON);
+		Response responseput = restclient.put(BASE_URL_GOREST,"/public/v2/users/"+userid, user, null, null, AuthType.BEARER_TOKEN, ContentType.JSON);
 		Assert.assertEquals(responseput.getStatusCode(),200);
 		Assert.assertEquals(responseput.jsonPath().getString("id"), userid);
 		Assert.assertEquals(responseput.jsonPath().getString("gender"), user.getGender());

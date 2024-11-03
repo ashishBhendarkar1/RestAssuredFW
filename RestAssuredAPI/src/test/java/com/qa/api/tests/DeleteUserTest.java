@@ -27,25 +27,25 @@ public class DeleteUserTest extends BaseTest{
 				                  .status("active")
 				                  .build();
 				
-				Response response = restclient.post("/public/v2/users", user, null, null, AuthType.BEARER_TOKEN, ContentType.JSON);		
+				Response response = restclient.post(BASE_URL_GOREST,"/public/v2/users", user, null, null, AuthType.BEARER_TOKEN, ContentType.JSON);		
 				Assert.assertEquals(response.getStatusCode(), 201);
 				//fetch userid
 				String userid = response.jsonPath().getString("id");
 				
 				
 		//2. GET: verify created user is same or not
-		Response responseget = restclient.get("/public/v2/users/"+ userid, null, null, AuthType.BEARER_TOKEN, ContentType.JSON);
+		Response responseget = restclient.get(BASE_URL_GOREST,"/public/v2/users/"+ userid, null, null, AuthType.BEARER_TOKEN, ContentType.JSON);
 		Assert.assertEquals(responseget.getStatusCode(),200);
 		Assert.assertEquals(responseget.jsonPath().getString("id"), userid);
 				
 		//3. delete: delete newly create userid
-		Response deleteresponse = restclient.delete("/public/v2/users/"+userid, null, null, AuthType.BEARER_TOKEN, ContentType.JSON);
+		Response deleteresponse = restclient.delete(BASE_URL_GOREST,"/public/v2/users/"+userid, null, null, AuthType.BEARER_TOKEN, ContentType.JSON);
 		
 		Assert.assertEquals(deleteresponse.getStatusCode(), 204);
 		System.out.println("-------------------------------");
 		
 		//4. get: recheck with the same userid
-		Response getdeleteuseridresponse =restclient.get("/public/v2/users/"+userid, null, null, AuthType.BEARER_TOKEN, ContentType.JSON);
+		Response getdeleteuseridresponse =restclient.get(BASE_URL_GOREST,"/public/v2/users/"+userid, null, null, AuthType.BEARER_TOKEN, ContentType.JSON);
 						
 		Assert.assertEquals(getdeleteuseridresponse.getStatusCode(), 404);
 		Assert.assertEquals(getdeleteuseridresponse.jsonPath().getString("message"), "Resource not found");
